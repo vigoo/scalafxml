@@ -63,9 +63,9 @@ but it is also possible to simply give the dependencies _by their type_ or _by t
 object SimpleDemo extends JFXApp {
 
   stage = new JFXApp.PrimaryStage() {
-    title = "Hello world"
+    title = "Test window"
     scene = new Scene(
-		FXMLView(getClass.getResource("startscreen.fxml"),
+		FXMLView(getClass.getResource("test.fxml"),
 		    new DependenciesByType(Map(
 		      typeOf[AnAdditionalDependency] -> new AnAdditionalDependency("dependency by type"))))
             
