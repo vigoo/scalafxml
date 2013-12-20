@@ -59,7 +59,7 @@ object SubCutDemo extends JFXApp {
 
 but it is also possible to simply give the dependencies _by their type_ or _by their name_:
 
-```
+```scala
 object SimpleDemo extends JFXApp {
 
   stage = new JFXApp.PrimaryStage() {
