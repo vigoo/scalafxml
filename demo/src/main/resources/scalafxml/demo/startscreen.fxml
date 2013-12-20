@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<VBox maxHeight="-Infinity" prefHeight="-1.0" prefWidth="401.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="scalafxml.demo.StartScreenPresenter">
+  <children>
+    <TitledPane animated="false" text="Create new photo book">
+      <content>
+        <AnchorPane id="Content" minHeight="80.0" minWidth="0.0" prefHeight="-1.0" prefWidth="398.0">
+          <children>
+            <Button fx:id="btCreate" mnemonicParsing="false" onAction="#onCreate" text="Create" AnchorPane.bottomAnchor="16.0" AnchorPane.rightAnchor="15.0" />
+            <TextField fx:id="newPhotoBookPath" layoutY="15.0" prefWidth="298.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="87.0" />
+            <Button mnemonicParsing="false" onAction="#onBrowse" text="Browse" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="16.0" />
+          </children>
+        </AnchorPane>
+      </content>
+    </TitledPane>
+    <TitledPane animated="false" text="Open existing photo book">
+      <content>
+        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+          <children>
+            <ListView fx:id="recentPaths" prefHeight="127.0" prefWidth="370.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="14.0" />
+            <Button mnemonicParsing="false" onAction="#onBrowseForOpen" text="Browse" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="12.0" />
+          </children>
+        </AnchorPane>
+      </content>
+    </TitledPane>
+  </children>
+</VBox>
