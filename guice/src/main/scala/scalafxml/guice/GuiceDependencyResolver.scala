@@ -12,7 +12,7 @@ class GuiceDependencyResolver(implicit val injector: Injector) extends Controlle
     try {
       Some(injector.getInstance(cls))
     } catch {
-      case _ => None
+      case _ : Throwable => None
     }
   }
 }
