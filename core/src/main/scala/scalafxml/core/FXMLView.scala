@@ -13,6 +13,7 @@ object FXMLView {
     * @param fxml URL to the FXML to be loaded
     * @param dependencies dependency resolver for finding non-bound dependencies
     * @return the JavaFX node
+    */
   def apply(fxml: URL, dependencies: ControllerDependencyResolver): jfxs.Parent =
     jfxf.FXMLLoader.load(
       fxml, 

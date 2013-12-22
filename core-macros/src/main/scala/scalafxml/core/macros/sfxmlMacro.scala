@@ -61,7 +61,7 @@ object sfxmlMacro {
 	        
 	  return Some(tq"$jfxClass[..$args]")
 	}
-      }nn
+      }
 	     
       return None // default: no conversion
     }
