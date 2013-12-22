@@ -125,7 +125,6 @@ object sfxmlMacro {
 
 	  	}"""
 
-	  println(proxyTree)
 	  c.Expr[Any](proxyTree)
   }
 }
