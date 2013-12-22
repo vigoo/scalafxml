@@ -5,9 +5,11 @@ import scalafx.scene.control.TextField
 import scalafx.scene.control.Button
 import scalafx.scene.control.ListView
 import scalafx.event.ActionEvent
+import scalafxml.core.macros.sfxml
 
 case class TestDependency(val initialPath: String)
 
+@sfxml
 class StartScreenPresenter(
     private val newPhotoBookPath: TextField,
     private val btCreate: Button,

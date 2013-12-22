@@ -6,10 +6,9 @@ The [scalafx](https://code.google.com/p/scalafx/) library is a great UI DSL that
 This library bridges [FXML](http://docs.oracle.com/javafx/2/fxml_get_started/why_use_fxml.htm) and [scalafx](https://code.google.com/p/scalafx/) by automatically building proxy classes, enabling a more clear controller syntax.
 
 ## Status
+The `main` branch contains the initial implementation of the _compile time_ proxy generator, which uses [macro annotations](http://docs.scala-lang.org/overviews/macros/annotations.html). This requires the addition of the [macro pardise](http://docs.scala-lang.org/overviews/macros/paradise.html) compiler plugin for clients using Scala 2.10, but has no runtime dependencies.
 
-Currently the proxies are generated runtime. This has a disadvantage of having `scala-compiler.jar` as a dependency.
-
-The library could be extended to use [macro annotations](http://docs.scala-lang.org/overviews/macros/annotations.html) for generating the proxies compile-time. This is an optimization and should not affect the FXML controller codes based on the library.    
+On the `dynamic` branch there is the first version of the proxy generator which executes runtime. This has a disadvantage of having `scala-compiler.jar` as a dependency, but has no special compile-time dependencies.
 
 ## Example
 
@@ -20,7 +19,9 @@ import scalafx.scene.control.TextField
 import scalafx.scene.control.Button
 import scalafx.scene.control.ListView
 import scalafx.event.ActionEvent
+import scalafxml.core.macros.sfxml
 
+@sfxml
 class TestController(
     private val input: TextField,
     private val create: Button,
