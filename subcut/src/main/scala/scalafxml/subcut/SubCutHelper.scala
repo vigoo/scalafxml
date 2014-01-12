@@ -3,8 +3,15 @@ package scalafxml.subcut;
 import scala.reflect.runtime.{universe => ru}
 import com.escalatesoft.subcut.inject.BindingModule
 
+/** Helper class for [[scalafxml.subcut.SubCutDependencyResolver]] */
 object SubCutHelper {
 
+  /** Invokes dynamically the SubCut binding module's injectOptional method
+    * 
+    * @param bindingModule binding module to invoke
+    * @param dependencyType type to pass to injectOptional as a type argument
+    * @return returns the result of the invoked method
+    */
   def injectOptional(bindingModule: BindingModule, dependencyType: ru.Type): Option[Any] = {
     import ru._
 
