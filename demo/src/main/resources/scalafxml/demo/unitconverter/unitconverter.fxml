@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<GridPane prefWidth="277.999977929685" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+  <children>
+    <Label text="Conversion type:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+    <Label text="From:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+    <Label text="To:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+    <Button mnemonicParsing="false" onAction="#onClose" text="Close" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+    <ComboBox fx:id="types" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="0">
+      <items>
+        <FXCollections fx:factory="observableArrayList">
+          <String fx:value="Item 1" />
+          <String fx:value="Item 2" />
+          <String fx:value="Item 3" />
+        </FXCollections>
+      </items>
+    </ComboBox>
+    <TextField fx:id="from" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+    <TextField fx:id="to" editable="false" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+  </children>
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="129.0" minWidth="10.0" prefWidth="111.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="149.0" minWidth="10.0" prefWidth="149.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="31.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+</GridPane>
