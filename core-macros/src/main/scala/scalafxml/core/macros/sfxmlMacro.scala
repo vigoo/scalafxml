@@ -24,6 +24,9 @@ class sfxml extends StaticAnnotation {
 	def macroTransform(annottees: Any*) = macro sfxmlMacro.impl
 }
 
+class TypeCheckHelper[T] {
+}
+
 /** Macro transformation implementation */
 object sfxmlMacro {
 
@@ -33,8 +36,10 @@ object sfxmlMacro {
 
     /** Resolves a type tree to a type */
     def toType(t: Tree): Type = {
-      val e = c.Expr[Any](c.typeCheck(q"null: $t"))
-      e.actualType
+      val e = c.Expr[Any](c.typeCheck(q"new scalafxml.core.macros.TypeCheckHelper[$t]"))
+      e.actualType match {
+        case TypeRef(_, _, params) => params.head
+      }
     }
 
     /** Converts ScalaFX types to JavaFX types, if possible 
@@ -111,7 +116,12 @@ object sfxmlMacro {
 	  val methodArgs = methodParams(0).map { 
             case ValDef(pmods, pname, ptype, pdef) => ValDef(pmods, pname, toJavaFXTypeOrOriginal(ptype), pdef) }
 	  val argInstances = methodParams(0).map { 
-            case ValDef(_, pname, ptype, _) => q"new $ptype($pname)" }
+            case ValDef(_, pname, ptype, _) =>
+              toJavaFXType(ptype) match {
+                case Some(_) => q"new $ptype($pname)"
+                case None => q"$pname"
+              }
+    }
 
 	  Some(q"""@javafx.fxml.FXML def ${methodName.toTermName}(..$methodArgs) {
 			impl.${methodName}(..$argInstances)
