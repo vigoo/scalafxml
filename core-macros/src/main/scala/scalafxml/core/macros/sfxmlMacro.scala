@@ -165,7 +165,7 @@ object sfxmlMacro {
     })
 
     /** AST of the proxy class */
-    val proxyTree = q"""class $name(private val dependencyResolver: scalafxml.core.ControllerDependencyResolver) extends javafx.fxml.Initializable with scalafxml.core.FxmlProxyGenerator.ProxyDependencyInjection {
+    val proxyTree = q"""class $name(private val dependencyResolver: scalafxml.core.ControllerDependencyResolver) extends javafx.fxml.Initializable with scalafxml.core.FxmlProxyGenerator.ProxyDependencyInjection with scalafxml.core.ControllerAccessor {
 
 	  		..$injections
 
@@ -179,6 +179,8 @@ object sfxmlMacro {
 	  		}
 
 	  		..$eventHandlers
+
+        def as[T](): T = impl.asInstanceOf[T]
 
 	  	}"""
 

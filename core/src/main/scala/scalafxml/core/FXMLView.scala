@@ -1,7 +1,5 @@
 package scalafxml.core
 
-import javafx.{fxml => jfxf}
-import javafx.{util => jfxu}
 import javafx.{scene => jfxs}
 import java.net.URL
 
@@ -14,13 +12,9 @@ object FXMLView {
     * @param dependencies dependency resolver for finding non-bound dependencies
     * @return the JavaFX node
     */
-  def apply(fxml: URL, dependencies: ControllerDependencyResolver): jfxs.Parent =
-    jfxf.FXMLLoader.load(
-      fxml, 
-      null,
-      new jfxf.JavaFXBuilderFactory(),
-      new jfxu.Callback[Class[_], Object] {
-        override def call(cls: Class[_]): Object = 
-            FxmlProxyGenerator(cls, dependencies)
-      })
+  def apply(fxml: URL, dependencies: ControllerDependencyResolver): jfxs.Parent = {
+    val loader = new FXMLLoader(fxml, dependencies)
+    loader.load()
+    loader.getRoot[jfxs.Parent]()
+  }
 }
