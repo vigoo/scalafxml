@@ -9,7 +9,7 @@ object Build extends Build {
   lazy val commonSettings = Defaults.defaultSettings ++
     Seq(
       organization := "org.scalafx",
-      version := "0.1.1",
+      version := "0.1",
       scalaVersion := "2.10.3",
       resolvers += Resolver.sonatypeRepo("releases"),
       libraryDependencies ++= Seq(
@@ -28,6 +28,12 @@ object Build extends Build {
           <url>github.com:vigoo/scalafxml.git</url>
           <connection>scm:git@github.com:vigoo/scalafxml.git</connection>
         </scm>
+        <licenses>
+          <license>
+            <name>Apache 2</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+           </license>
+        </licenses>
         <developers>
           <developer>
             <id>vigoo</id>
