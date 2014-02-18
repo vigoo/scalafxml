@@ -31,7 +31,7 @@ class TestController(
 	// event handlers are simple public methods:
 	def onCreate(event: ActionEvent) {
 		// ...
-	} 
+	}
 }
 ```
 
@@ -52,9 +52,9 @@ object SubCutDemo extends JFXApp {
     title = "Test window"
     scene = new Scene(
 		FXMLView(
-			getClass.getResource("test.fxml"), 
-			new SubCutDependencyResolver()))            
-  }  
+			getClass.getResource("test.fxml"),
+			new SubCutDependencyResolver()))
+  }
 }
 ```
 
@@ -69,10 +69,13 @@ object SimpleDemo extends JFXApp {
 		FXMLView(getClass.getResource("test.fxml"),
 		    new DependenciesByType(Map(
 		      typeOf[AnAdditionalDependency] -> new AnAdditionalDependency("dependency by type"))))
-            
-  }  
+
+  }
 }
 ```
+
+## Requirements
+* `sbt 0.13` is required
 
 ## Related
 * [Related blog post](http://vigoo.github.io/2014/01/12/scalafx-with-fxml.html) explaining how the library works.
