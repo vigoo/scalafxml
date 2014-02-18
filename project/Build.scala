@@ -1,12 +1,14 @@
 
 import sbt._
 import Keys._
+import xerial.sbt.Sonatype._
+import xerial.sbt.Sonatype.SonatypeKeys._
 
 object Build extends Build {
 
   lazy val commonSettings = Defaults.defaultSettings ++
     Seq(
-      organization := "org.scalafxml",
+      organization := "org.scalafx",
       version := "0.1",
       scalaVersion := "2.10.3",
       resolvers += Resolver.sonatypeRepo("releases"),
@@ -18,12 +20,38 @@ object Build extends Build {
       fork := true,
       exportJars := true,
 
-      addCompilerPlugin("org.scalamacros" % "paradise" % "2.0.0-M1" cross CrossVersion.full)
-    )
+      addCompilerPlugin("org.scalamacros" % "paradise" % "2.0.0-M1" cross CrossVersion.full),
+
+      pomExtra :=
+        <url>https://github.com/vigoo/scalafxml</url>
+        <scm>
+          <url>github.com:vigoo/scalafxml.git</url>
+          <connection>scm:git@github.com:vigoo/scalafxml.git</connection>
+        </scm>
+        <licenses>
+          <license>
+            <name>Apache 2</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+           </license>
+        </licenses>
+        <developers>
+          <developer>
+            <id>vigoo</id>
+            <name>Daniel Vigovszky</name>
+            <url>https://github.com/vigoo</url>
+          </developer>
+          <developer>
+            <id>jpsacha</id>
+            <name>Jarek Sacha</name>
+            <url>https://github.com/jpsacha</url>
+          </developer>
+        </developers>
+    ) ++ sonatypeSettings
 
   lazy val root: Project = Project("root", file("."),
     settings = commonSettings ++ Seq(
-      run <<= run in Compile in core
+      run <<= run in Compile in core,
+      publishArtifact := false
     )) aggregate("scalafxml-core-macros", "scalafxml-core", "scalafxml-subcut", "scalafxml-guice", "scalafxml-demo")
 
   lazy val core = Project("scalafxml-core", file("core"),
@@ -59,7 +87,8 @@ object Build extends Build {
 
   lazy val demo = Project("scalafxml-demo", file("demo"),
     settings = subcutSettings ++ Seq(
-      description := "ScalaFXML demo applications"
+      description := "ScalaFXML demo applications",
+      publishArtifact := false
     ))
     .dependsOn(core, subcut, guice)
 
