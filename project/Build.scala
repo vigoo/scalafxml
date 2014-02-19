@@ -9,7 +9,7 @@ object Build extends Build {
   lazy val commonSettings = Defaults.defaultSettings ++
     Seq(
       organization := "org.scalafx",
-      version := "0.1",
+      version := "0.2-SNAPSHOT",
       scalaVersion := "2.10.3",
       resolvers += Resolver.sonatypeRepo("releases"),
       libraryDependencies ++= Seq(
