@@ -10,6 +10,12 @@ The `main` branch contains the initial implementation of the _compile time_ prox
 
 On the `dynamic` branch there is the first version of the proxy generator which executes runtime. This has a disadvantage of having `scala-compiler.jar` as a dependency, but has no special compile-time dependencies.
 
+The latest published version is "0.1". To use it in SBT add:
+
+```scala
+libraryDependencies += "org.scalafx" % "scalafxml-core_2.10" % "0.1"
+```
+
 ## Example
 
 The controller's, referenced from the FXML's through the `fx:controller` attribute, can be implemented as simple Scala classes, getting all the bound controls though the constructor:
