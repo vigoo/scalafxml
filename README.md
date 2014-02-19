@@ -10,7 +10,7 @@ The `main` branch contains the initial implementation of the _compile time_ prox
 
 On the `dynamic` branch there is the first version of the proxy generator which executes runtime. This has a disadvantage of having `scala-compiler.jar` as a dependency, but has no special compile-time dependencies.
 
-The laest published version is "0.1". To use it in SBT add:
+The latest published version is "0.1". To use it in SBT add:
 
 ```scala
 libraryDependencies += "org.scalafx" % "scalafxml-core_2.10" % "0.1"
