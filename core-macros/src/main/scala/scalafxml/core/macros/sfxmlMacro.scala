@@ -110,26 +110,20 @@ object sfxmlMacro {
       */
     val eventHandlers = nonEmpty(body.map(t => t match {
       case DefDef(methodMods, methodName, _, methodParams, methodReturnType, _) if !methodMods.hasFlag(Flag.PRIVATE) => {
+	val methodArgs = methodParams.map(_.map {
+          case ValDef(pmods, pname, ptype, pdef) => ValDef(pmods, pname, toJavaFXTypeOrOriginal(ptype), pdef)
+	})
+	val argInstances = methodParams.map(_.map {
+          case ValDef(_, pname, ptype, _) =>
+            toJavaFXType(ptype) match {
+              case Some(_) => q"new $ptype($pname)"
+              case None => q"$pname"
+            }
+        })
 
-        // ..we don't support multiple event handler parameter lists currently
-	if (methodParams.length == 1) {
-	  val methodArgs = methodParams(0).map { 
-            case ValDef(pmods, pname, ptype, pdef) => ValDef(pmods, pname, toJavaFXTypeOrOriginal(ptype), pdef) }
-	  val argInstances = methodParams(0).map { 
-            case ValDef(_, pname, ptype, _) =>
-              toJavaFXType(ptype) match {
-                case Some(_) => q"new $ptype($pname)"
-                case None => q"$pname"
-              }
-    }
-
-	  Some(q"""@javafx.fxml.FXML def ${methodName.toTermName}(..$methodArgs) {
-			impl.${methodName}(..$argInstances)
-		}""")
-	}
-	else {
-	  throw new Exception("Multiple parameter lists are not supported")
-	}
+	Some(q"""@javafx.fxml.FXML def ${methodName.toTermName}(...$methodArgs) {
+		impl.${methodName}(...$argInstances)
+	}""")
       }
       case _ => None
     }))
