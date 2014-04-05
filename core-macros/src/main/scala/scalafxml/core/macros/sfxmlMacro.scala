@@ -87,7 +87,7 @@ object sfxmlMacro {
 
     // Extracting th ename, constructor arguments, base class and body
     // from the annotated class
-    val q"class $name(...$argss) extends $baseClass { ..$body }" = annottees.map(_.tree).toList(0)
+    val q"class $name(...$argss) extends $baseClass with ..$traits { ..$body }" = annottees.map(_.tree).toList(0)
 
     println(s"Compiling ScalaFXML proxy class for $name")
 
@@ -169,7 +169,7 @@ object sfxmlMacro {
 
 	  		..$injections
 
-	  		class Controller(...$argss) extends $baseClass { ..$body }
+	  		class Controller(...$argss) extends $baseClass with ..$traits { ..$body }
 	  		private var impl: Controller = null	  		
 
 	  		..$jfxVariables
