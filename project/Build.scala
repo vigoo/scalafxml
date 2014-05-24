@@ -9,11 +9,11 @@ object Build extends Build {
   lazy val commonSettings = Defaults.defaultSettings ++
     Seq(
       organization := "org.scalafx",
-      version := "0.2-SNAPSHOT",
+      version := "0.2",
       scalaVersion := "2.10.3",
       resolvers += Resolver.sonatypeRepo("releases"),
       libraryDependencies ++= Seq(
-	"org.scalafx" % "scalafx_2.10" % "1.0.0-M7",
+	"org.scalafx" % "scalafx_2.10" % "1.0.0-R8",
 	"org.scalatest" % "scalatest_2.10" % "2.0" % "test"),
 
       unmanagedJars in Compile += Attributed.blank(file(System.getenv("JAVA_HOME") + "/jre/lib/jfxrt.jar")),
