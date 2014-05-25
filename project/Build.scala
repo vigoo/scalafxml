@@ -20,7 +20,7 @@ object Build extends Build {
       fork := true,
       exportJars := true,
 
-      addCompilerPlugin("org.scalamacros" % "paradise" % "2.0.0-M1" cross CrossVersion.full),
+      addCompilerPlugin("org.scalamacros" % "paradise" % "2.0.0-M2" cross CrossVersion.full),
 
       pomExtra :=
         <url>https://github.com/vigoo/scalafxml</url>
