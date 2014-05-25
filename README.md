@@ -13,7 +13,7 @@ On the `dynamic` branch there is the first version of the proxy generator which 
 The latest published version is "0.1". To use it in SBT add:
 
 ```scala
-libraryDependencies += "org.scalafx" % "scalafxml-core_2.10" % "0.1"
+libraryDependencies += "org.scalafx" % "scalafxml-core_2.10" % "0.2"
 ```
 
 ## Example
