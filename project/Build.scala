@@ -9,8 +9,9 @@ object Build extends Build {
   lazy val commonSettings = Defaults.defaultSettings ++
     Seq(
       organization := "org.scalafx",
-      version := "0.2",
-      scalaVersion := "2.10.3",
+      version := "0.2.1-SNAPSHOT",
+      crossScalaVersions := Seq("2.10.3", "2.11.0"),
+      scalacOptions ++= Seq("-deprecation"),
       resolvers += Resolver.sonatypeRepo("releases"),
       libraryDependencies ++= Seq(
 	"org.scalafx" %% "scalafx" % "1.0.0-R8",
@@ -20,7 +21,7 @@ object Build extends Build {
       fork := true,
       exportJars := true,
 
-      addCompilerPlugin("org.scalamacros" % "paradise" % "2.0.0-M2" cross CrossVersion.full),
+      addCompilerPlugin("org.scalamacros" % "paradise" % "2.0.0" cross CrossVersion.full),
 
       pomExtra :=
         <url>https://github.com/vigoo/scalafxml</url>
@@ -63,7 +64,21 @@ object Build extends Build {
   lazy val coreMacros = Project("scalafxml-core-macros", file("core-macros"),
     settings = commonSettings ++ Seq(
       description := "ScalaFXML macros",
-      libraryDependencies <+= (scalaVersion)("org.scala-lang" % "scala-reflect" % _)
+      libraryDependencies <+= (scalaVersion)("org.scala-lang" % "scala-reflect" % _),
+
+      libraryDependencies := {
+        CrossVersion.partialVersion(scalaVersion.value) match {
+          // if scala 2.11+ is used, quasiquotes are merged into scala-reflect
+          case Some((2, scalaMajor)) if scalaMajor >= 11 =>
+            libraryDependencies.value
+          // in Scala 2.10, quasiquotes are provided by macro paradise
+          case Some((2, 10)) =>
+            libraryDependencies.value ++ Seq(
+              compilerPlugin("org.scalamacros" % "paradise" % "2.0.0" cross CrossVersion.full),
+              "org.scalamacros" %% "quasiquotes" % "2.0.0" cross CrossVersion.binary)
+        }
+      }
+
     ))
 
   lazy val subcutSettings = commonSettings ++ Seq(

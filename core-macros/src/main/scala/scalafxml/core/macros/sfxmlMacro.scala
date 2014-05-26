@@ -122,7 +122,7 @@ object sfxmlMacro {
         })
 
 	Some(q"""@javafx.fxml.FXML def ${methodName.toTermName}(...$methodArgs) {
-		impl.${methodName}(...$argInstances)
+		impl.${methodName.toTermName}(...$argInstances)
 	}""")
       }
       case _ => None
