@@ -75,13 +75,13 @@ class RefactoredScalaFXView(converters: UnitConverters) extends JFXApp.PrimarySt
 
       columnConstraints = List(
         new ColumnConstraints {
-          halignment = HPos.LEFT
-          hgrow = Priority.SOMETIMES
+          halignment = HPos.Left
+          hgrow = Priority.Sometimes
           margin = Insets(5)
         },
         new ColumnConstraints {
-          halignment = HPos.RIGHT
-          hgrow = Priority.ALWAYS
+          halignment = HPos.Right
+          hgrow = Priority.Always
           margin = Insets(5)
         }
       )
