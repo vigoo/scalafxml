@@ -9,19 +9,19 @@ object Build extends Build {
   lazy val commonSettings = Defaults.defaultSettings ++
     Seq(
       organization := "org.scalafx",
-      version := "0.2.1-SNAPSHOT",
-      crossScalaVersions := Seq("2.10.3", "2.11.0"),
+      version := "0.2.1",
+      crossScalaVersions := Seq("2.10.4", "2.11.2"),
       scalacOptions ++= Seq("-deprecation"),
       resolvers += Resolver.sonatypeRepo("releases"),
       libraryDependencies ++= Seq(
-	"org.scalafx" %% "scalafx" % "1.0.0-R8",
-	"org.scalatest" %% "scalatest" % "2.1.7" % "test"),
+	"org.scalafx" %% "scalafx" % "2.2.67-R10",
+	"org.scalatest" %% "scalatest" % "2.2.2" % "test"),
 
       unmanagedJars in Compile += Attributed.blank(file(System.getenv("JAVA_HOME") + "/jre/lib/jfxrt.jar")),
       fork := true,
       exportJars := true,
 
-      addCompilerPlugin("org.scalamacros" % "paradise" % "2.0.0" cross CrossVersion.full),
+      addCompilerPlugin("org.scalamacros" % "paradise" % "2.0.1" cross CrossVersion.full),
 
       pomExtra :=
         <url>https://github.com/vigoo/scalafxml</url>
@@ -74,8 +74,8 @@ object Build extends Build {
           // in Scala 2.10, quasiquotes are provided by macro paradise
           case Some((2, 10)) =>
             libraryDependencies.value ++ Seq(
-              compilerPlugin("org.scalamacros" % "paradise" % "2.0.0" cross CrossVersion.full),
-              "org.scalamacros" %% "quasiquotes" % "2.0.0" cross CrossVersion.binary)
+              compilerPlugin("org.scalamacros" % "paradise" % "2.0.1" cross CrossVersion.full),
+              "org.scalamacros" %% "quasiquotes" % "2.0.1" cross CrossVersion.binary)
         }
       }
 
@@ -83,7 +83,7 @@ object Build extends Build {
 
   lazy val subcutSettings = commonSettings ++ Seq(
     description := "SubCut based dependency resolver for ScalaFXML",
-    libraryDependencies += "com.escalatesoft.subcut" % "subcut_2.10" % "2.0")
+    libraryDependencies += "com.escalatesoft.subcut" %% "subcut" % "2.1")
 
   lazy val subcut = Project("scalafxml-subcut", file("subcut"),
     settings = subcutSettings)
