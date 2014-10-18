@@ -9,12 +9,12 @@ object Build extends Build {
   lazy val commonSettings = Defaults.defaultSettings ++
     Seq(
       organization := "org.scalafx",
-      version := "0.2.1",
-      crossScalaVersions := Seq("2.10.4", "2.11.2"),
+      version := "0.2.2",
+      crossScalaVersions := Seq("2.10.4", "2.11.3"),
       scalacOptions ++= Seq("-deprecation"),
       resolvers += Resolver.sonatypeRepo("releases"),
       libraryDependencies ++= Seq(
-	"org.scalafx" %% "scalafx" % "2.2.67-R10",
+	"org.scalafx" %% "scalafx" % "8.0.20-R6",
 	"org.scalatest" %% "scalatest" % "2.2.2" % "test"),
 
       unmanagedJars in Compile += Attributed.blank(file(System.getenv("JAVA_HOME") + "/jre/lib/jfxrt.jar")),
@@ -53,15 +53,15 @@ object Build extends Build {
     settings = commonSettings ++ Seq(
       run <<= run in Compile in core,
       publishArtifact := false
-    )) aggregate("scalafxml-core-macros", "scalafxml-core", "scalafxml-subcut", "scalafxml-guice", "scalafxml-demo")
+    )) aggregate("scalafxml-core-macros-sfx8", "scalafxml-core-sfx8", "scalafxml-subcut-sfx8", "scalafxml-guice-sfx8", "scalafxml-demo-sfx8")
 
-  lazy val core = Project("scalafxml-core", file("core"),
+  lazy val core = Project("scalafxml-core-sfx8", file("core"),
     settings = commonSettings ++ Seq(
       description := "ScalaFXML core module"
     ))
     .dependsOn(coreMacros)
 
-  lazy val coreMacros = Project("scalafxml-core-macros", file("core-macros"),
+  lazy val coreMacros = Project("scalafxml-core-macros-sfx8", file("core-macros"),
     settings = commonSettings ++ Seq(
       description := "ScalaFXML macros",
       libraryDependencies <+= (scalaVersion)("org.scala-lang" % "scala-reflect" % _),
@@ -85,7 +85,7 @@ object Build extends Build {
     description := "SubCut based dependency resolver for ScalaFXML",
     libraryDependencies += "com.escalatesoft.subcut" %% "subcut" % "2.1")
 
-  lazy val subcut = Project("scalafxml-subcut", file("subcut"),
+  lazy val subcut = Project("scalafxml-subcut-sfx8", file("subcut"),
     settings = subcutSettings)
     .aggregate(core)
     .dependsOn(core)
@@ -95,12 +95,12 @@ object Build extends Build {
     libraryDependencies += "com.google.inject" % "guice" % "3.0"
   )
 
-  lazy val guice = Project("scalafxml-guice", file("guice"),
+  lazy val guice = Project("scalafxml-guice-sfx8", file("guice"),
     settings = guiceSettings)
     .aggregate(core)
     .dependsOn(core)
 
-  lazy val demo = Project("scalafxml-demo", file("demo"),
+  lazy val demo = Project("scalafxml-demo-sfx8", file("demo"),
     settings = subcutSettings ++ Seq(
       description := "ScalaFXML demo applications",
       publishArtifact := false
