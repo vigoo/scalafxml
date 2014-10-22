@@ -6,16 +6,19 @@ The [scalafx](https://code.google.com/p/scalafx/) library is a great UI DSL that
 This library bridges [FXML](http://docs.oracle.com/javafx/2/fxml_get_started/why_use_fxml.htm) and [scalafx](https://code.google.com/p/scalafx/) by automatically building proxy classes, enabling a more clear controller syntax.
 
 ## Status
-The `main` branch contains the initial implementation of the _compile time_ proxy generator, which uses [macro annotations](http://docs.scala-lang.org/overviews/macros/annotations.html). This requires the addition of the [macro paradise](http://docs.scala-lang.org/overviews/macros/paradise.html) compiler plugin for clients using Scala 2.10, but has no runtime dependencies.
+
+The `main` branch contains the initial implementation of the _compile time_ proxy generator, which uses [macro annotations](http://docs.scala-lang.org/overviews/macros/annotations.html). This requires the addition of the [macro paradise](http://docs.scala-lang.org/overviews/macros/paradise.html) compiler plugin, but has no runtime dependencies. It depends on [ScalaFX 8](https://github.com/scalafx/scalafx) and _JavaFX 8_.
+
+The [`SFX-2`](https://github.com/vigoo/scalafxml/tree/SFX-2) branch is the _compile time_ proxy generator for [ScalaFX 2.2](https://github.com/scalafx/scalafx/tree/SFX-2) using _JavaFX 2_.
 
 On the `dynamic` branch there is the first version of the proxy generator which executes runtime. This has a disadvantage of having `scala-compiler.jar` as a dependency, but has no special compile-time dependencies.
 
-The latest published version is "0.2.1". To use it in SBT add:
+The latest published version is `0.2.2`. To use it in SBT add:
 
 ```scala
 addCompilerPlugin("org.scalamacros" % "paradise" % "2.0.1" cross CrossVersion.full)
 
-libraryDependencies += "org.scalafx" % "scalafxml-core_2.10" % "0.2.1"
+libraryDependencies += "org.scalafx" %% "scalafxml-core-sfx2" % "0.2.2"
 ```
 
 ## Example
