@@ -53,7 +53,7 @@ object Build extends Build {
     settings = commonSettings ++ Seq(
       run <<= run in Compile in core,
       publishArtifact := false
-    )) aggregate("scalafxml-core-macros-sfx8", "scalafxml-core-sfx8", "scalafxml-subcut-sfx8", "scalafxml-guice-sfx8", "scalafxml-demo-sfx8")
+    )) aggregate("scalafxml-core-macros-sfx8", "scalafxml-core-sfx8", "scalafxml-subcut-sfx8", "scalafxml-macwire-sfx8", "scalafxml-guice-sfx8", "scalafxml-demo-sfx8")
 
   lazy val core = Project("scalafxml-core-sfx8", file("core"),
     settings = commonSettings ++ Seq(
@@ -100,11 +100,20 @@ object Build extends Build {
     .aggregate(core)
     .dependsOn(core)
 
+  lazy val macwireSettings = commonSettings ++ Seq(
+    description := "MacWire based dependency resolver for ScalaFXML",
+    libraryDependencies += "com.softwaremill.macwire" %% "macros" % "0.7.3",
+    libraryDependencies += "com.softwaremill.macwire" %% "runtime" % "0.7.3"
+  )
+  lazy val macwire = Project("scalafxml-macwire-sfx8", file("macwire"), settings = macwireSettings)
+    .aggregate(core)
+    .dependsOn(core)
+
   lazy val demo = Project("scalafxml-demo-sfx8", file("demo"),
     settings = subcutSettings ++ Seq(
       description := "ScalaFXML demo applications",
       publishArtifact := false
     ))
-    .dependsOn(core, subcut, guice)
+    .dependsOn(core, subcut, guice, macwire)
 
 }
