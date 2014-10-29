@@ -1,5 +1,7 @@
 scalafxml
 =========
+[![Build Status](https://travis-ci.org/vigoo/scalafxml.svg?branch=master)](https://travis-ci.org/vigoo/scalafxml)
+
 
 The [scalafx](https://code.google.com/p/scalafx/) library is a great UI DSL that wraps JavaFX classes and provides a nice syntax to work with them from Scala.
 
