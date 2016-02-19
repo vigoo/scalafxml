@@ -1,6 +1,6 @@
 package scalafxml.core.macros
 
-import scala.reflect.macros.Context
+import scala.reflect.macros.blackbox.Context
 import scala.language.experimental.macros
 import scala.annotation.StaticAnnotation
 
@@ -21,7 +21,7 @@ import scala.annotation.StaticAnnotation
   * The controller itself is instantiated in the proxy's initialize method.
   */
 class sfxml extends StaticAnnotation {
-	def macroTransform(annottees: Any*) = macro sfxmlMacro.impl
+	def macroTransform(annottees: Any*): Any = macro sfxmlMacro.impl
 }
 
 class TypeCheckHelper[T] {
@@ -36,13 +36,13 @@ object sfxmlMacro {
 
     /** Resolves a type tree to a type */
     def toType(t: Tree): Type = {
-      val e = c.Expr[Any](c.typeCheck(q"new scalafxml.core.macros.TypeCheckHelper[$t]"))
+      val e = c.Expr[Any](c.typecheck(q"new scalafxml.core.macros.TypeCheckHelper[$t]"))
       e.actualType match {
         case TypeRef(_, _, params) => params.head
       }
     }
 
-    /** Converts ScalaFX types to JavaFX types, if possible 
+    /** Converts ScalaFX types to JavaFX types, if possible
       * @param t type tree possibly representing a ScalaFX type
       * @return returns a modified type tree if it was a ScalaFX type, otherwise None
       */
@@ -57,21 +57,21 @@ object sfxmlMacro {
       if (pkg.isPackageClass) {
 	val pkgName = pkg.fullName
 	if (pkgName.startsWith("scalafx.")) {
-	        
+
 	  val args = scalaFxType.asInstanceOf[TypeRefApi].args
 
 	  val jfxPkgName = pkgName.replaceFirst("scalafx.", "javafx.")
 	  val jfxClassName = s"$jfxPkgName.$name"
 	  val jfxClass = c.mirror.staticClass(jfxClassName)
-	        
+
 	  return Some(tq"$jfxClass[..$args]")
 	}
       }
-	     
+
       return None // default: no conversion
     }
 
-    /** Converts a ScalaFX type tree to JavaFX type tree, or keep it untouched 
+    /** Converts a ScalaFX type tree to JavaFX type tree, or keep it untouched
       * @param scalaFxType a type tree possibly representing a ScalaFX type
       * @return a type tree which is either modified to be a JavaFX type, or is untouched
       */
@@ -133,7 +133,7 @@ object sfxmlMacro {
       case ValDef(_, cParamName, cParamType, _) =>
 	toJavaFXType(cParamType) match {
 	  case Some(_) => q"new $cParamType($cParamName)"
-	  case None => q"getDependency[$cParamType](${Literal(Constant(cParamName.decoded))})"
+	  case None => q"getDependency[$cParamType](${Literal(Constant(cParamName.decodedName.toString))})"
 	}
     })
 
@@ -146,7 +146,7 @@ object sfxmlMacro {
 	toJavaFXType(cParamType) match {
 	  case Some(_) => None
 	  case None => {
-	    val nameLiteral = Literal(Constant(cParamName.decoded))
+	    val nameLiteral = Literal(Constant(cParamName.decodedName.toString))
 	    val typeLiteral = q"scala.reflect.runtime.universe.typeOf[$cParamType]"
 	    Some(
 	      q"""dependencyResolver.get($nameLiteral, $typeLiteral) match {

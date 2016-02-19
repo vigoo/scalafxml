@@ -17,7 +17,7 @@ trait ControllerDependencyResolver {
   /** Resolves a dependency
     * 
     * @param paramName name of the constructor argument
-    * @param dependenctyType type of the constructor argument
+    * @param dependencyType type of the constructor argument
     * @return returns either some arbitrary value or none if it could not
     *         resolve the dependency.
     */ 

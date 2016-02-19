@@ -6,22 +6,25 @@ import xerial.sbt.Sonatype.SonatypeKeys._
 
 object Build extends Build {
 
+  val jfxrtJar = file(System.getenv("JAVA_HOME") + "/jre/lib/ext/jfxrt.jar")
+  println(s"Using JavaFX jar $jfxrtJar")
+
   lazy val commonSettings = Defaults.defaultSettings ++
     Seq(
       organization := "org.scalafx",
-      version := "0.2.2",
-      crossScalaVersions := Seq("2.10.4", "2.11.3"),
+      version := "0.2.3",
+      scalaVersion := "2.11.7",
       scalacOptions ++= Seq("-deprecation"),
       resolvers += Resolver.sonatypeRepo("releases"),
       libraryDependencies ++= Seq(
-	"org.scalafx" %% "scalafx" % "8.0.20-R6",
-	"org.scalatest" %% "scalatest" % "2.2.2" % "test"),
+	"org.scalafx" %% "scalafx" % "8.0.60-R9",
+	"org.scalatest" %% "scalatest" % "2.2.6" % "test"),
 
-      unmanagedJars in Compile += Attributed.blank(file(System.getenv("JAVA_HOME") + "/jre/lib/jfxrt.jar")),
+      unmanagedJars in Compile += Attributed.blank(jfxrtJar),
       fork := true,
       exportJars := true,
 
-      addCompilerPlugin("org.scalamacros" % "paradise" % "2.0.1" cross CrossVersion.full),
+      addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full),
 
       pomExtra :=
         <url>https://github.com/vigoo/scalafxml</url>
@@ -64,21 +67,7 @@ object Build extends Build {
   lazy val coreMacros = Project("scalafxml-core-macros-sfx8", file("core-macros"),
     settings = commonSettings ++ Seq(
       description := "ScalaFXML macros",
-      libraryDependencies <+= (scalaVersion)("org.scala-lang" % "scala-reflect" % _),
-
-      libraryDependencies := {
-        CrossVersion.partialVersion(scalaVersion.value) match {
-          // if scala 2.11+ is used, quasiquotes are merged into scala-reflect
-          case Some((2, scalaMajor)) if scalaMajor >= 11 =>
-            libraryDependencies.value
-          // in Scala 2.10, quasiquotes are provided by macro paradise
-          case Some((2, 10)) =>
-            libraryDependencies.value ++ Seq(
-              compilerPlugin("org.scalamacros" % "paradise" % "2.0.1" cross CrossVersion.full),
-              "org.scalamacros" %% "quasiquotes" % "2.0.1" cross CrossVersion.binary)
-        }
-      }
-
+      libraryDependencies <+= (scalaVersion)("org.scala-lang" % "scala-reflect" % _)
     ))
 
   lazy val subcutSettings = commonSettings ++ Seq(
@@ -102,8 +91,8 @@ object Build extends Build {
 
   lazy val macwireSettings = commonSettings ++ Seq(
     description := "MacWire based dependency resolver for ScalaFXML",
-    libraryDependencies += "com.softwaremill.macwire" %% "macros" % "0.7.3",
-    libraryDependencies += "com.softwaremill.macwire" %% "runtime" % "0.7.3"
+    libraryDependencies += "com.softwaremill.macwire" %% "macros" % "1.0.7",
+    libraryDependencies += "com.softwaremill.macwire" %% "runtime" % "1.0.7"
   )
   lazy val macwire = Project("scalafxml-macwire-sfx8", file("macwire"), settings = macwireSettings)
     .aggregate(core)

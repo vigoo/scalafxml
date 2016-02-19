@@ -17,12 +17,13 @@ object SubCutHelper {
 
     val rm = runtimeMirror(bindingModule.getClass.getClassLoader)
     val instanceMirror = rm.reflect(bindingModule)
-    val injectOptionalSymbols = typeOf[BindingModule].declaration(newTermName("injectOptional")).asTerm.alternatives
+    val injectOptionalSymbols = typeOf[BindingModule].decl(TermName("injectOptional")).asTerm.alternatives
     val injectOptionalSym = injectOptionalSymbols.filter {
       case m: MethodSymbol => {
-                              m.paramss.size == 2 &&
-                              m.paramss(0).size == 1 &&
-                              m.paramss(0)(0).typeSignature =:= typeOf[Option[String]] }
+        m.paramLists.size == 2 &&
+        m.paramLists(0).size == 1 &&
+        m.paramLists(0)(0).typeSignature =:= typeOf[Option[String]]
+      }
     }.head.asMethod
 
     val methodMirror = instanceMirror.reflectMethod(injectOptionalSym)
