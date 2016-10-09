@@ -2,23 +2,22 @@
 import sbt._
 import Keys._
 import xerial.sbt.Sonatype._
-import xerial.sbt.Sonatype.SonatypeKeys._
 
 object Build extends Build {
 
   val jfxrtJar = file(System.getenv("JAVA_HOME") + "/jre/lib/ext/jfxrt.jar")
   println(s"Using JavaFX jar $jfxrtJar")
 
-  lazy val commonSettings = Defaults.defaultSettings ++
+  lazy val commonSettings =
     Seq(
       organization := "org.scalafx",
-      version := "0.2.3",
-      scalaVersion := "2.11.7",
+      version := "0.3",
+      scalaVersion := "2.11.8",
       scalacOptions ++= Seq("-deprecation"),
       resolvers += Resolver.sonatypeRepo("releases"),
       libraryDependencies ++= Seq(
-	"org.scalafx" %% "scalafx" % "8.0.60-R9",
-	"org.scalatest" %% "scalatest" % "2.2.6" % "test"),
+        "org.scalafx" %% "scalafx" % "8.0.102-R11",
+        "org.scalatest" %% "scalatest" % "3.0.0" % "test"),
 
       unmanagedJars in Compile += Attributed.blank(jfxrtJar),
       fork := true,
@@ -28,28 +27,28 @@ object Build extends Build {
 
       pomExtra :=
         <url>https://github.com/vigoo/scalafxml</url>
-        <scm>
-          <url>github.com:vigoo/scalafxml.git</url>
-          <connection>scm:git@github.com:vigoo/scalafxml.git</connection>
-        </scm>
-        <licenses>
-          <license>
-            <name>Apache 2</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-           </license>
-        </licenses>
-        <developers>
-          <developer>
-            <id>vigoo</id>
-            <name>Daniel Vigovszky</name>
-            <url>https://github.com/vigoo</url>
-          </developer>
-          <developer>
-            <id>jpsacha</id>
-            <name>Jarek Sacha</name>
-            <url>https://github.com/jpsacha</url>
-          </developer>
-        </developers>
+          <scm>
+            <url>github.com:vigoo/scalafxml.git</url>
+            <connection>scm:git@github.com:vigoo/scalafxml.git</connection>
+          </scm>
+          <licenses>
+            <license>
+              <name>Apache 2</name>
+              <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            </license>
+          </licenses>
+          <developers>
+            <developer>
+              <id>vigoo</id>
+              <name>Daniel Vigovszky</name>
+              <url>https://github.com/vigoo</url>
+            </developer>
+            <developer>
+              <id>jpsacha</id>
+              <name>Jarek Sacha</name>
+              <url>https://github.com/jpsacha</url>
+            </developer>
+          </developers>
     ) ++ sonatypeSettings
 
   lazy val root: Project = Project("root", file("."),
@@ -67,7 +66,7 @@ object Build extends Build {
   lazy val coreMacros = Project("scalafxml-core-macros-sfx8", file("core-macros"),
     settings = commonSettings ++ Seq(
       description := "ScalaFXML macros",
-      libraryDependencies <+= (scalaVersion)("org.scala-lang" % "scala-reflect" % _)
+      libraryDependencies <+= scalaVersion ("org.scala-lang" % "scala-reflect" % _)
     ))
 
   lazy val subcutSettings = commonSettings ++ Seq(
@@ -81,7 +80,7 @@ object Build extends Build {
 
   lazy val guiceSettings = commonSettings ++ Seq(
     description := "Guice based dependency resolver for ScalaFXML",
-    libraryDependencies += "com.google.inject" % "guice" % "3.0"
+    libraryDependencies += "com.google.inject" % "guice" % "4.1.0"
   )
 
   lazy val guice = Project("scalafxml-guice-sfx8", file("guice"),
@@ -91,9 +90,12 @@ object Build extends Build {
 
   lazy val macwireSettings = commonSettings ++ Seq(
     description := "MacWire based dependency resolver for ScalaFXML",
-    libraryDependencies += "com.softwaremill.macwire" %% "macros" % "1.0.7",
-    libraryDependencies += "com.softwaremill.macwire" %% "runtime" % "1.0.7"
+    libraryDependencies ++= Seq(
+      "com.softwaremill.macwire" %% "macros" % "1.0.7",
+      "com.softwaremill.macwire" %% "runtime" % "1.0.7"
+    )
   )
+
   lazy val macwire = Project("scalafxml-macwire-sfx8", file("macwire"), settings = macwireSettings)
     .aggregate(core)
     .dependsOn(core)

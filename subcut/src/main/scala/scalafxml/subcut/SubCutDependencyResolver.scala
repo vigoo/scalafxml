@@ -8,7 +8,7 @@ import scalafxml.subcut.SubCutHelper._
 /** SubCut based dependency resolver for ScalaFXML controllers */
 class SubCutDependencyResolver(implicit val bindingModule: BindingModule) extends ControllerDependencyResolver {
 
-    def get(paramName: String, dependencyType: Type): Option[Any] = {
-      injectOptional(bindingModule, dependencyType)
-    }
+  def get(paramName: String, dependencyType: Type): Option[Any] = {
+    injectOptional(bindingModule, dependencyType)
+  }
 }

@@ -1,4 +1,4 @@
-package scalafxml.subcut;
+package scalafxml.subcut
 
 import scala.reflect.runtime.{universe => ru}
 import com.escalatesoft.subcut.inject.BindingModule
@@ -7,8 +7,8 @@ import com.escalatesoft.subcut.inject.BindingModule
 object SubCutHelper {
 
   /** Invokes dynamically the SubCut binding module's injectOptional method
-    * 
-    * @param bindingModule binding module to invoke
+    *
+    * @param bindingModule  binding module to invoke
     * @param dependencyType type to pass to injectOptional as a type argument
     * @return returns the result of the invoked method
     */
@@ -21,8 +21,8 @@ object SubCutHelper {
     val injectOptionalSym = injectOptionalSymbols.filter {
       case m: MethodSymbol => {
         m.paramLists.size == 2 &&
-        m.paramLists(0).size == 1 &&
-        m.paramLists(0)(0).typeSignature =:= typeOf[Option[String]]
+          m.paramLists(0).size == 1 &&
+          m.paramLists(0)(0).typeSignature =:= typeOf[Option[String]]
       }
     }.head.asMethod
 

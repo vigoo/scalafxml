@@ -30,7 +30,7 @@ object NoDependencyResolver extends ControllerDependencyResolver {
   def get(paramName: String, dependencyType: Type): Option[Any] = None
 }
 
-/** Dependency resolver based on the contructor argument's names 
+/** Dependency resolver based on the constructor argument's names
   * 
   * @constructor creates a new dependency resolver based on a mapping
   * @param deps dependency mapping, from constructor argument names to values

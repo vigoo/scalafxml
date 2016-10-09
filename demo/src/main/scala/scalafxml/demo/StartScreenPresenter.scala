@@ -7,7 +7,7 @@ import scalafx.scene.control.ListView
 import scalafx.event.ActionEvent
 import scalafxml.core.macros.sfxml
 
-case class TestDependency(val initialPath: String)
+case class TestDependency(initialPath: String)
 
 @sfxml
 class StartScreenPresenter(
@@ -16,7 +16,7 @@ class StartScreenPresenter(
     private val recentPaths: ListView[String],
     private val testDep: TestDependency) {
 
-  println(s"testDep is ${testDep}")
+  println(s"testDep is $testDep")
 
 	newPhotoBookPath.text = testDep.initialPath
 
