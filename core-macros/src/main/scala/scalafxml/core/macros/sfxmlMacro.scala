@@ -1,5 +1,7 @@
 package scalafxml.core.macros
 
+import com.sun.prism.Texture.WrapMode
+
 import scala.language.experimental.macros
 import scala.annotation.StaticAnnotation
 import scala.reflect.macros.blackbox
@@ -34,6 +36,11 @@ object sfxmlMacro {
 
     import c.universe._
 
+    sealed trait InputType
+    case class WrapWithScalaFX(jfxType: Tree, sfxType: Tree) extends InputType
+    case class UseJavaFX(jfxType: Tree) extends InputType
+    case object GetFromDependencies extends InputType
+
     /** Resolves a type tree to a type */
     def toType(t: Tree): Type = {
       val e = c.Expr[Any](c.typecheck(q"new scalafxml.core.macros.TypeCheckHelper[$t]"))
@@ -42,12 +49,13 @@ object sfxmlMacro {
       }
     }
 
-    /** Converts ScalaFX types to JavaFX types, if possible
+    /** Determines whether an input type of the annotated constructor
+      * needs to be wrapped or fetched from the dependency provider
       *
       * @param t type tree possibly representing a ScalaFX type
-      * @return returns a modified type tree if it was a ScalaFX type, otherwise None
+      * @return returns one of the cases of the InputType ADT
       */
-    def toJavaFXType(t: Tree): Option[Tree] = {
+    def determineInputType(t: Tree): InputType = {
       val scalaFxType = toType(t)
 
       val name = scalaFxType.typeSymbol.name
@@ -65,24 +73,28 @@ object sfxmlMacro {
           val jfxClassName = s"$jfxPkgName.$name"
           val jfxClass = c.mirror.staticClass(jfxClassName)
 
-          Some(tq"$jfxClass[..$args]")
+          WrapWithScalaFX(tq"$jfxClass[..$args]", t)
+        } else if (pkgName.startsWith("javafx.")) {
+          // If it is already a JavaFX type, we leave it as it is
+          UseJavaFX(t)
         } else {
-          None
+          GetFromDependencies
         }
       } else {
-        None // default: no conversion
+        GetFromDependencies // default: no conversion
       }
     }
 
     /** Converts a ScalaFX type tree to JavaFX type tree, or keep it untouched
       *
-      * @param scalaFxType a type tree possibly representing a ScalaFX type
+      * @param unknownType a type tree possibly representing a ScalaFX type
       * @return a type tree which is either modified to be a JavaFX type, or is untouched
       */
-    def toJavaFXTypeOrOriginal(scalaFxType: Tree): Tree =
-      toJavaFXType(scalaFxType) match {
-        case Some(t) => t
-        case None => scalaFxType
+    def toJavaFXTypeOrOriginal(unknownType: Tree): Tree =
+      determineInputType(unknownType) match {
+        case WrapWithScalaFX(jfxType, _) => jfxType
+        case UseJavaFX(jfxType) => jfxType
+        case GetFromDependencies => unknownType
       }
 
     /** Filters out empty elements from a list of AST */
@@ -101,9 +113,10 @@ object sfxmlMacro {
       */
     val jfxVariables = nonEmpty(argss.flatten.map {
       case ValDef(_, paramName, paramType, _) =>
-        toJavaFXType(paramType) match {
-          case Some(jfxType) => Some(q"@javafx.fxml.FXML var $paramName: $jfxType = null")
-          case None => None
+        determineInputType(paramType) match {
+          case WrapWithScalaFX(jfxType, _) => Some(q"@javafx.fxml.FXML var $paramName: $jfxType = null")
+          case UseJavaFX(jfxType) => Some(q"@javafx.fxml.FXML var $paramName: $jfxType = null")
+          case GetFromDependencies => None
         }
       case p =>
         throw new Exception(s"Unknown parameter match: ${showRaw(p)}")
@@ -119,9 +132,10 @@ object sfxmlMacro {
         })
         val argInstances = methodParams.map(_.map {
           case ValDef(_, pname, ptype, _) =>
-            toJavaFXType(ptype) match {
-              case Some(_) => q"new $ptype($pname)"
-              case None => q"$pname"
+            determineInputType(ptype) match {
+              case WrapWithScalaFX(_, sfxType) => q"new $sfxType($pname)"
+              case UseJavaFX(_) => q"$pname"
+              case GetFromDependencies => q"$pname"
             }
         })
 
@@ -136,9 +150,10 @@ object sfxmlMacro {
     /** List of values to be passed to the controller's constructor */
     val constructorParams = argss.map(_.map {
       case ValDef(_, cParamName, cParamType, _) =>
-        toJavaFXType(cParamType) match {
-          case Some(_) => q"new $cParamType($cParamName)"
-          case None => q"getDependency[$cParamType](${Literal(Constant(cParamName.decodedName.toString))})"
+        determineInputType(cParamType) match {
+          case WrapWithScalaFX(_, sfxType) => q"new $sfxType($cParamName)"
+          case UseJavaFX(_) => q"$cParamName"
+          case GetFromDependencies => q"getDependency[$cParamType](${Literal(Constant(cParamName.decodedName.toString))})"
         }
     })
 
@@ -148,10 +163,8 @@ object sfxmlMacro {
       */
     val injections = nonEmpty(argss.flatten.map {
       case ValDef(_, cParamName, cParamType, _) =>
-        toJavaFXType(cParamType) match {
-          case Some(_) =>
-            None
-          case None =>
+        determineInputType(cParamType) match {
+          case GetFromDependencies =>
             val nameLiteral = Literal(Constant(cParamName.decodedName.toString))
             val typeLiteral = q"scala.reflect.runtime.universe.typeOf[$cParamType]"
             Some(
@@ -160,6 +173,8 @@ object sfxmlMacro {
                     case None =>
 	  	            }
               """)
+          case _ =>
+            None
         }
       case x => throw new Exception(s"Invalid constructor argument $x")
     })
@@ -184,6 +199,8 @@ object sfxmlMacro {
           def as[T](): T = impl.asInstanceOf[T]
 
 	  	}"""
+
+    println(proxyTree)
 
     // Returning the proxy class
     c.Expr[Any](proxyTree)
