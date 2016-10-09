@@ -12,12 +12,12 @@ object SubCutDemo extends JFXApp {
   implicit val bindingModule = newBindingModule(module => {
     import module._
 
-    bind [TestDependency] toSingle(new TestDependency("subcut dependency"))
+    bind[TestDependency] toSingle TestDependency("subcut dependency")
   })
 
   stage = new JFXApp.PrimaryStage() {
     title = "Hello world"
     scene = new Scene(FXMLView(getClass.getResource("startscreen.fxml"), new SubCutDependencyResolver()))
-            
-  }  
+
+  }
 }

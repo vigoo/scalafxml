@@ -71,6 +71,7 @@ class PureScalaFXView(converters: UnitConverters) extends JFXApp.PrimaryStage {
   // Data binding
   to.text <== new StringBinding {
     bind(from.text.delegate, types.getSelectionModel.selectedItemProperty)
+
     def computeValue() = types.getSelectionModel.getSelectedItem.run(from.text.value)
   }
 }

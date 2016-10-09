@@ -11,10 +11,10 @@ case class TestDependency(initialPath: String)
 
 @sfxml
 class StartScreenPresenter(
-    private val newPhotoBookPath: TextField,
-    private val btCreate: Button,
-    private val recentPaths: ListView[String],
-    private val testDep: TestDependency) {
+    newPhotoBookPath: TextField,
+    btCreate: Button,
+    recentPaths: ListView[String],
+    testDep: TestDependency) {
 
   println(s"testDep is $testDep")
 

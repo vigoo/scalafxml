@@ -15,6 +15,6 @@ object SimpleDemo extends JFXApp {
   stage = new JFXApp.PrimaryStage() {
     title = "Hello world"
     scene = new Scene(root)
-            
-  }  
+
+  }
 }

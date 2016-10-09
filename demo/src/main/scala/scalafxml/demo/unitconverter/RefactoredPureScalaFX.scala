@@ -9,11 +9,10 @@ import scalafx.geometry.{Insets, HPos}
 import scalafx.event.ActionEvent
 import javafx.beans.binding.StringBinding
 
-class RawUnitConverterPresenter(
-                              private val from: TextField,
-                              private val to: TextField,
-                              private val types: ComboBox[UnitConverter],
-                              private val converters: UnitConverters) {
+class RawUnitConverterPresenter(from: TextField,
+                                to: TextField,
+                                types: ComboBox[UnitConverter],
+                                converters: UnitConverters) {
 
   // Filling the combo box
   for (converter <- converters.available) {
@@ -24,6 +23,7 @@ class RawUnitConverterPresenter(
   // Data binding
   to.text <== new StringBinding {
     bind(from.text.delegate, types.getSelectionModel.selectedItemProperty)
+
     def computeValue() = types.getSelectionModel.getSelectedItem.run(from.text.value)
   }
 
