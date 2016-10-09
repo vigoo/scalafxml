@@ -3,7 +3,7 @@ scalafxml
 [![Build Status](https://travis-ci.org/vigoo/scalafxml.svg?branch=master)](https://travis-ci.org/vigoo/scalafxml)
 
 
-The [scalafx](https://code.google.com/p/scalafx/) library is a great UI DSL that wraps JavaFX classes and provides a nice syntax to work with them from Scala.
+The [scalafx](http://www.scalafx.org/) library is a great UI DSL that wraps JavaFX classes and provides a nice syntax to work with them from Scala.
 
 This library bridges [FXML](http://docs.oracle.com/javafx/2/fxml_get_started/why_use_fxml.htm) and [scalafx](https://code.google.com/p/scalafx/) by automatically building proxy classes, enabling a more clear controller syntax.
 
