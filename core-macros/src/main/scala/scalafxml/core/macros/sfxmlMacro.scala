@@ -200,8 +200,6 @@ object sfxmlMacro {
 
 	  	}"""
 
-    println(proxyTree)
-
     // Returning the proxy class
     c.Expr[Any](proxyTree)
   }
