@@ -5,13 +5,12 @@ import scalafx.scene.Scene
 import scalafx.Includes._
 import scalafxml.core.FXMLView
 import scalafxml.macwire.MacWireDependencyResolver
-import com.softwaremill.macwire.MacwireMacros._
-import com.softwaremill.macwire.Wired
+import com.softwaremill.macwire._
 
 object MacWireDemo extends JFXApp {
 
   class Module {
-    def testDependency = new TestDependency("MacWire dependency")
+    def testDependency = TestDependency("MacWire dependency")
   }
 
   lazy val wired: Wired = wiredInModule(new Module)

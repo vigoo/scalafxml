@@ -104,7 +104,10 @@ object Build extends Build {
   lazy val demo = Project("scalafxml-demo-sfx8", file("demo"),
     settings = subcutSettings ++ Seq(
       description := "ScalaFXML demo applications",
-      publishArtifact := false
+      publishArtifact := false,
+      libraryDependencies ++= Seq(
+        "com.softwaremill.macwire" %% "macros" % "2.2.4" % "provided"
+      )
     ))
     .dependsOn(core, subcut, guice, macwire)
 
