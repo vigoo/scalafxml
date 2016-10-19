@@ -91,8 +91,9 @@ object Build extends Build {
   lazy val macwireSettings = commonSettings ++ Seq(
     description := "MacWire based dependency resolver for ScalaFXML",
     libraryDependencies ++= Seq(
-      "com.softwaremill.macwire" %% "macros" % "1.0.7",
-      "com.softwaremill.macwire" %% "runtime" % "1.0.7"
+      "com.softwaremill.macwire" %% "macros" % "2.2.4" % "provided",
+      "com.softwaremill.macwire" %% "util" % "2.2.4",
+      "com.softwaremill.macwire" %% "proxy" % "2.2.4"
     )
   )
 
