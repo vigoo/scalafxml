@@ -53,7 +53,7 @@ lazy val root: Project = Project("scalafxml-root", file("."),
   settings = commonSettings ++ Seq(
     run := (run in Compile in core).evaluated,
     publishArtifact := false
-  )) aggregate(coreMacros, core, subcut, macwire, guice, demo)
+  )) aggregate(coreMacros, core, macwire, guice, demo)
 
 lazy val core = Project("scalafxml-core-sfx8", file("core"),
   settings = commonSettings ++ Seq(
@@ -66,15 +66,6 @@ lazy val coreMacros = Project("scalafxml-core-macros-sfx8", file("core-macros"),
     description := "ScalaFXML macros",
     libraryDependencies += scalaVersion("org.scala-lang" % "scala-reflect" % _).value
   ))
-
-lazy val subcutSettings = commonSettings ++ Seq(
-  description := "SubCut based dependency resolver for ScalaFXML",
-  libraryDependencies += "com.escalatesoft.subcut" %% "subcut" % "2.1")
-
-lazy val subcut = Project("scalafxml-subcut-sfx8", file("subcut"),
-  settings = subcutSettings)
-  .aggregate(core)
-  .dependsOn(core)
 
 lazy val guiceSettings = commonSettings ++ Seq(
   description := "Guice based dependency resolver for ScalaFXML",
@@ -100,11 +91,11 @@ lazy val macwire = Project("scalafxml-macwire-sfx8", file("macwire"), settings =
   .dependsOn(core)
 
 lazy val demo = Project("scalafxml-demo-sfx8", file("demo"),
-  settings = subcutSettings ++ Seq(
+  settings = Seq(
     description := "ScalaFXML demo applications",
     publishArtifact := false,
     libraryDependencies ++= Seq(
       "com.softwaremill.macwire" %% "macros" % "2.2.5" % "provided"
     )
   ))
-  .dependsOn(core, subcut, guice, macwire)
+  .dependsOn(core, guice, macwire)
