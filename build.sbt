@@ -91,7 +91,7 @@ lazy val macwire = Project("scalafxml-macwire-sfx8", file("macwire"), settings =
   .dependsOn(core)
 
 lazy val demo = Project("scalafxml-demo-sfx8", file("demo"),
-  settings = Seq(
+  settings = commonSettings ++ Seq(
     description := "ScalaFXML demo applications",
     publishArtifact := false,
     libraryDependencies ++= Seq(
