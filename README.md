@@ -90,4 +90,4 @@ object SimpleDemo extends JFXApp {
 * `sbt 0.13` is required
 
 ## Related
-* [Related blog post](http://vigoo.github.io/2014/01/12/scalafx-with-fxml.html) explaining how the library works.
+* [Related blog post](https://vigoo.github.io/posts/2014-01-12-scalafx-with-fxml.html) explaining how the library works.
