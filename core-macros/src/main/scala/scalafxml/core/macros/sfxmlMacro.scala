@@ -22,7 +22,7 @@ import scala.reflect.macros.blackbox
   *
   * The controller itself is instantiated in the proxy's initialize method.
   */
-class sfxml extends StaticAnnotation {
+class sfxml(additionalControls: List[String] = List.empty) extends StaticAnnotation {
   def macroTransform(annottees: Any*): Any = macro sfxmlMacro.impl
 }
 
@@ -58,12 +58,34 @@ object sfxmlMacro {
       }
     }
 
+    def evalTree[T](tree: Tree) = c.eval(c.Expr[T](c.untypecheck(tree.duplicate)))
+
+    def additionalControls: List[String] = {
+      c.prefix.tree match {
+        case q"new sfxml(additionalControls = $additionalControls)" =>
+          evalTree[List[String]](additionalControls)
+        case q"new sfxml($additionalControls)" =>
+          evalTree[List[String]](additionalControls)
+        case q"new sfxml()" =>
+          List.empty
+      }
+    }
+
     def isNestedAnnotation(t: Tree): Option[Tree] = {
       t match {
         case Apply(Select(New(AppliedTypeTree(Ident(TypeName("nested")), List(controllerType))), termNames.CONSTRUCTOR), List()) =>
           Some(controllerType)
         case _ =>
           None
+      }
+    }
+
+    def isFxmlAnnotation(t: Tree): Boolean = {
+      t match {
+        case Apply(Select(New(Ident(TypeName("FXML"))), termNames.CONSTRUCTOR), List()) =>
+          true
+        case _ =>
+          false
       }
     }
 
@@ -84,6 +106,8 @@ object sfxmlMacro {
           val name = unknownType.typeSymbol.name
           val pkg = unknownType.typeSymbol.owner
 
+          val controlPrefixes = "javafx." :: additionalControls
+
           // We simply replace the package to javafx from scalafx,
           // and keep everything else
           if (pkg.isPackageClass) {
@@ -97,11 +121,15 @@ object sfxmlMacro {
               val jfxClass = c.mirror.staticClass(jfxClassName)
 
               WrapWithScalaFX(tq"$jfxClass[..$args]", t)
-            } else if (pkgName.startsWith("javafx.")) {
+            } else if (controlPrefixes.exists(prefix => pkgName.startsWith(prefix))) {
               // If it is already a JavaFX type, we leave it as it is
               UseJavaFX(t)
             } else {
-              GetFromDependencies
+              if (modifiers.annotations.exists(isFxmlAnnotation(_))) {
+                UseJavaFX(t)
+              } else {
+                GetFromDependencies
+              }
             }
           } else {
             GetFromDependencies // default: no conversion

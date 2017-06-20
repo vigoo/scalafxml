@@ -23,11 +23,10 @@ trait UnitConverterInterface {
 
 /** Our controller class, implements UnitConverterInterface */
 @sfxml
-class UnitConverterPresenter(
-                              private val from: TextField,
-                              private val to: TextField,
-                              private val types: ComboBox[UnitConverter],
-                              private val converters: UnitConverters)
+class UnitConverterPresenter(from: TextField,
+                             to: TextField,
+                             types: ComboBox[UnitConverter],
+                             converters: UnitConverters)
   extends UnitConverterInterface {
 
   // Filling the combo box

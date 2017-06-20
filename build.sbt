@@ -95,7 +95,8 @@ lazy val demo = Project("scalafxml-demo-sfx8", file("demo"),
     description := "ScalaFXML demo applications",
     publishArtifact := false,
     libraryDependencies ++= Seq(
-      "com.softwaremill.macwire" %% "macros" % "2.2.5" % "provided"
+      "com.softwaremill.macwire" %% "macros" % "2.2.5" % "provided",
+      "com.jfoenix" % "jfoenix" % "1.4.0"
     )
   ))
   .dependsOn(core, guice, macwire)
