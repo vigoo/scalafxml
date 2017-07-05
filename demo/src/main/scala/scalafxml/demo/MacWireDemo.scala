@@ -1,5 +1,7 @@
 package scalafxml.demo
 
+import java.util.{MissingResourceException, ResourceBundle}
+
 import scalafx.application.JFXApp
 import scalafx.scene.Scene
 import scalafx.Includes._
@@ -16,8 +18,10 @@ object MacWireDemo extends JFXApp {
   lazy val wired: Wired = wiredInModule(new Module)
 
   stage = new JFXApp.PrimaryStage() {
-    title = "Hello world"
-    scene = new Scene(FXMLView(getClass.getResource("startscreen.fxml"), new MacWireDependencyResolver(wired)))
+    val resourceBundle = ResourceBundle.getBundle("scalafxml.demo.Localization")
+
+    title = resourceBundle.getString("TEXT_HELLO_WORLD")
+    scene = new Scene(FXMLView(getClass.getResource("startscreen.fxml"), new MacWireDependencyResolver(wired), Some(resourceBundle)))
 
   }
 }

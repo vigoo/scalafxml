@@ -1,11 +1,13 @@
 package scalafxml.demo
 
+import java.util.{Locale, MissingResourceException, ResourceBundle}
+
 import scalafx.Includes._
 import scalafx.application.JFXApp
 import scalafx.scene.Scene
 import scalafxml.core.FXMLView
 import scalafxml.guice.GuiceDependencyResolver
-import com.google.inject.{Guice, AbstractModule}
+import com.google.inject.{AbstractModule, Guice}
 
 object GuiceDemo extends JFXApp {
 
@@ -17,8 +19,10 @@ object GuiceDemo extends JFXApp {
   implicit val injector = Guice.createInjector(module)
 
   stage = new JFXApp.PrimaryStage() {
-    title = "Hello world"
-    scene = new Scene(FXMLView(getClass.getResource("startscreen.fxml"), new GuiceDependencyResolver()))
+    val resourceBundle = ResourceBundle.getBundle("scalafxml.demo.Localization")
+    title = resourceBundle.getString("TEXT_HELLO_WORLD")
+
+    scene = new Scene(FXMLView(getClass.getResource("startscreen.fxml"), new GuiceDependencyResolver(), Some(resourceBundle)))
 
   }
 }
