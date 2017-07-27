@@ -1,6 +1,7 @@
 package scalafxml.core
 
 import java.net.URL
+import java.util.ResourceBundle
 import javafx.{fxml => jfxf}
 import javafx.{util => jfxu}
 
@@ -12,11 +13,12 @@ import javafx.{util => jfxu}
  *
  * @param fxml URL to the FXML to be loaded
  * @param dependencies dependency resolver for finding non-bound dependencies
+ * @param bundle optional bundle for localization resources
  */
-class FXMLLoader(fxml: URL, dependencies: ControllerDependencyResolver)
+class FXMLLoader(fxml: URL, dependencies: ControllerDependencyResolver, bundle : Option[ResourceBundle] = None)
   extends jfxf.FXMLLoader(
     fxml,
-    null,
+    bundle.orNull,
     new jfxf.JavaFXBuilderFactory(),
     new jfxu.Callback[Class[_], Object] {
       override def call(cls: Class[_]): Object =
