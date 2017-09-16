@@ -158,8 +158,6 @@ object sfxmlMacro {
     // from the annotated class
     val q"class $name(...$argss) extends $baseClass with ..$traits { ..$body }" = annottees.map(_.tree).head
 
-    println(s"Compiling ScalaFXML proxy class for $name")
-
     /** Bindable public JavaFX variables for the proxy,
       * generated from the constructor arguments of the controller
       * which have a ScalaFX type
