@@ -1,7 +1,5 @@
 package scalafxml.core.macros
 
-import com.sun.prism.Texture.WrapMode
-
 import scala.language.experimental.macros
 import scala.annotation.StaticAnnotation
 import scala.reflect.macros.blackbox
