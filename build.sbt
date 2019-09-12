@@ -63,6 +63,8 @@ lazy val commonSettings =
     fork := true,
     exportJars := true,
 
+    publishMavenStyle := true,
+    publishTo := sonatypePublishTo.value,
     sonatypeProjectHosting := Some(GitHubHosting("vigoo", "scalafxml", "daniel.vigovszky@gmail.com")),
 
     licenses := Seq("APL2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt")),
