@@ -20,7 +20,7 @@ def isScala2_13plus(scalaVersion: String): Boolean = CrossVersion.partialVersion
 lazy val commonSettings =
   Seq(
     organization := "org.scalafx",
-    version := "0.5-SNAPSHOT",
+    version := "0.5",
     crossScalaVersions := Seq("2.13.0", "2.12.9", "2.11.12"),
     scalaVersion := crossScalaVersions.value.head,
     scalacOptions ++= Seq("-deprecation"),
