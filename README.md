@@ -14,19 +14,19 @@ The [`SFX-2`](https://github.com/vigoo/scalafxml/tree/SFX-2) branch is the _comp
 
 On the `dynamic` branch there is the first version of the proxy generator which executes runtime. This has a disadvantage of having `scala-compiler.jar` as a dependency, but has no special compile-time dependencies.
 
-The latest published version is `0.4`. To use it in SBT with Scala 2.13 add
+The latest published version is `0.5`. To use it in SBT with Scala 2.13 add
 
 ```scala
 scalacOptions += "-Ymacro-annotations"
 
-libraryDependencies += "org.scalafx" %% "scalafxml-core-sfx8" % "0.4"
+libraryDependencies += "org.scalafx" %% "scalafxml-core-sfx8" % "0.5"
 ```
 
 for Scala 2.12 and earlier add:
 ```scala
 addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
 
-libraryDependencies += "org.scalafx" %% "scalafxml-core-sfx8" % "0.4"
+libraryDependencies += "org.scalafx" %% "scalafxml-core-sfx8" % "0.5"
 ```
 
 ## Example
