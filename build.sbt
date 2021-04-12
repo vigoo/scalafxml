@@ -37,7 +37,7 @@ lazy val commonSettings =
     resolvers += Resolver.sonatypeRepo("releases"),
     resolvers += Resolver.sonatypeRepo("snapshots"),
     libraryDependencies ++= Seq(
-      "org.scalafx" %% "scalafx" % "12.0.2-R18",
+      "org.scalafx" %% "scalafx" % "15.0.1-R21",
       "org.scalatest" %% "scalatest" % "3.0.8" % "test"),
 
     // Add JavaFX dependencies, mark as "provided", so they can be later removed from published POM
