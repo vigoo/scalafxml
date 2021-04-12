@@ -38,7 +38,7 @@ lazy val commonSettings =
     resolvers += Resolver.sonatypeRepo("snapshots"),
     libraryDependencies ++= Seq(
       "org.scalafx" %% "scalafx" % "15.0.1-R21",
-      "org.scalatest" %% "scalatest" % "3.0.9" % "test"),
+      "org.scalatest" %% "scalatest" % "3.2.7" % "test"),
 
     // Add JavaFX dependencies, mark as "provided", so they can be later removed from published POM
     libraryDependencies ++= Seq("base", "controls", "fxml", "graphics", "media", "swing", "web").map(
@@ -91,7 +91,7 @@ lazy val coreMacros = Project("scalafxml-core-macros-sfx8", file("core-macros"))
 
 lazy val guiceSettings = Seq(
   description := "Guice based dependency resolver for ScalaFXML",
-  libraryDependencies += "com.google.inject" % "guice" % "4.2.3"
+  libraryDependencies += "com.google.inject" % "guice" % "5.0.1"
 )
 
 lazy val guice = Project("scalafxml-guice-sfx8", file("guice"))
