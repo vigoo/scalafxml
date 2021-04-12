@@ -21,7 +21,7 @@ lazy val commonSettings =
   Seq(
     organization := "org.scalafx",
     version := "0.5",
-    crossScalaVersions := Seq("2.13.0", "2.12.9", "2.11.12"),
+    crossScalaVersions := Seq("2.13.0", "2.12.13", "2.11.12"),
     scalaVersion := crossScalaVersions.value.head,
     scalacOptions ++= Seq("-deprecation"),
     // If using Scala 2.13 or better, enable macro processing through compiler option
@@ -38,11 +38,11 @@ lazy val commonSettings =
     resolvers += Resolver.sonatypeRepo("snapshots"),
     libraryDependencies ++= Seq(
       "org.scalafx" %% "scalafx" % "15.0.1-R21",
-      "org.scalatest" %% "scalatest" % "3.0.8" % "test"),
+      "org.scalatest" %% "scalatest" % "3.0.9" % "test"),
 
     // Add JavaFX dependencies, mark as "provided", so they can be later removed from published POM
     libraryDependencies ++= Seq("base", "controls", "fxml", "graphics", "media", "swing", "web").map(
-      m => "org.openjfx" % s"javafx-$m" % "12.0.2" % "provided" classifier osName),
+      m => "org.openjfx" % s"javafx-$m" % "17-ea+6" % "provided" classifier osName),
 
     // Use `pomPostProcess` to remove dependencies marked as "provided" from publishing in POM
     // This is to avoid dependency on wrong OS version JavaFX libraries
@@ -91,7 +91,7 @@ lazy val coreMacros = Project("scalafxml-core-macros-sfx8", file("core-macros"))
 
 lazy val guiceSettings = Seq(
   description := "Guice based dependency resolver for ScalaFXML",
-  libraryDependencies += "com.google.inject" % "guice" % "4.2.2"
+  libraryDependencies += "com.google.inject" % "guice" % "4.2.3"
 )
 
 lazy val guice = Project("scalafxml-guice-sfx8", file("guice"))
@@ -122,9 +122,9 @@ lazy val demo = Project("scalafxml-demo-sfx8", file("demo"))
     publishArtifact := false,
     libraryDependencies ++= Seq(
       "com.softwaremill.macwire" %% "macros" % "2.3.3" % "provided",
-      "com.jfoenix" % "jfoenix" % "9.0.9"
+      "com.jfoenix" % "jfoenix" % "9.0.10"
     ),
     libraryDependencies ++= Seq("base", "controls", "fxml", "graphics", "media", "swing", "web").map(
-      m => "org.openjfx" % s"javafx-$m" % "12.0.2" classifier osName)
+      m => "org.openjfx" % s"javafx-$m" % "17-ea+6" classifier osName)
   )
   .dependsOn(core, guice, macwire)
