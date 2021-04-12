@@ -91,7 +91,7 @@ lazy val coreMacros = Project("scalafxml-core-macros-sfx8", file("core-macros"))
 
 lazy val guiceSettings = Seq(
   description := "Guice based dependency resolver for ScalaFXML",
-  libraryDependencies += "com.google.inject" % "guice" % "4.2.2"
+  libraryDependencies += "com.google.inject" % "guice" % "4.2.3"
 )
 
 lazy val guice = Project("scalafxml-guice-sfx8", file("guice"))
@@ -122,7 +122,7 @@ lazy val demo = Project("scalafxml-demo-sfx8", file("demo"))
     publishArtifact := false,
     libraryDependencies ++= Seq(
       "com.softwaremill.macwire" %% "macros" % "2.3.7" % "provided",
-      "com.jfoenix" % "jfoenix" % "9.0.9"
+      "com.jfoenix" % "jfoenix" % "9.0.10"
     ),
     libraryDependencies ++= Seq("base", "controls", "fxml", "graphics", "media", "swing", "web").map(
       m => "org.openjfx" % s"javafx-$m" % "12.0.2" classifier osName)
