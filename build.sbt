@@ -103,9 +103,9 @@ lazy val guice = Project("scalafxml-guice-sfx8", file("guice"))
 lazy val macwireSettings = Seq(
   description := "MacWire based dependency resolver for ScalaFXML",
   libraryDependencies ++= Seq(
-    "com.softwaremill.macwire" %% "macros" % "2.3.3" % "provided",
-    "com.softwaremill.macwire" %% "util"   % "2.3.3",
-    "com.softwaremill.macwire" %% "proxy"  % "2.3.3"
+    "com.softwaremill.macwire" %% "macros" % "2.3.7" % "provided",
+    "com.softwaremill.macwire" %% "util"   % "2.3.7",
+    "com.softwaremill.macwire" %% "proxy"  % "2.3.7"
   )
 )
 
@@ -121,7 +121,7 @@ lazy val demo = Project("scalafxml-demo-sfx8", file("demo"))
     description := "ScalaFXML demo applications",
     publishArtifact := false,
     libraryDependencies ++= Seq(
-      "com.softwaremill.macwire" %% "macros" % "2.3.3" % "provided",
+      "com.softwaremill.macwire" %% "macros" % "2.3.7" % "provided",
       "com.jfoenix" % "jfoenix" % "9.0.10"
     ),
     libraryDependencies ++= Seq("base", "controls", "fxml", "graphics", "media", "swing", "web").map(
