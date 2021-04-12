@@ -122,7 +122,7 @@ lazy val demo = Project("scalafxml-demo-sfx8", file("demo"))
     publishArtifact := false,
     libraryDependencies ++= Seq(
       "com.softwaremill.macwire" %% "macros" % "2.3.3" % "provided",
-      "com.jfoenix" % "jfoenix" % "9.0.9"
+      "com.jfoenix" % "jfoenix" % "9.0.10"
     ),
     libraryDependencies ++= Seq("base", "controls", "fxml", "graphics", "media", "swing", "web").map(
       m => "org.openjfx" % s"javafx-$m" % "12.0.2" classifier osName)
