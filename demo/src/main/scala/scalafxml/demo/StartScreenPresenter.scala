@@ -20,16 +20,16 @@ class StartScreenPresenter(
 
 	newPhotoBookPath.text = testDep.initialPath
 
-	def onBrowse(event: ActionEvent) {
+	def onBrowse(event: ActionEvent): Unit = {
 		println(newPhotoBookPath.text)
 		println("onBrowse")    
 	}
   
-	def onBrowseForOpen(event: ActionEvent) {
+	def onBrowseForOpen(event: ActionEvent): Unit = {
 		println("onBrowseForOpen")
 	}
  
-	def onCreate(event: ActionEvent) {
+	def onCreate(event: ActionEvent): Unit = {
 		println("onCreate")
 	} 
 }

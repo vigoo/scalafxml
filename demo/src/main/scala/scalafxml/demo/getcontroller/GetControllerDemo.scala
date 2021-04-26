@@ -18,7 +18,7 @@ import javafx.{scene => jfxs}
  * Public interface of our controller which will be available through FXMLLoader
  */
 trait UnitConverterInterface {
-  def setInitialValue(value: Double)
+  def setInitialValue(value: Double): Unit
 }
 
 /** Our controller class, implements UnitConverterInterface */
@@ -38,15 +38,15 @@ class UnitConverterPresenter(from: TextField,
   // Data binding
   to.text <== new StringBinding {
     bind(from.text.delegate, types.getSelectionModel.selectedItemProperty)
-    def computeValue() = types.getSelectionModel.getSelectedItem.run(from.text.value)
+    def computeValue(): String = types.getSelectionModel.getSelectedItem.run(from.text.value)
   }
 
   // Close button event handler
-  def onClose(event: ActionEvent) {
+  def onClose(event: ActionEvent): Unit = {
     Platform.exit()
   }
 
-  def setInitialValue(value: Double) {
+  def setInitialValue(value: Double): Unit = {
     from.text = value.toString
   }
 }

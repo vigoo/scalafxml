@@ -28,7 +28,7 @@ class RawUnitConverterPresenter(from: TextField,
   }
 
   // Close button event handler
-  def onClose(event: ActionEvent) {
+  def onClose(event: ActionEvent): Unit = {
     Platform.exit()
   }
 }

@@ -25,6 +25,6 @@ class FXMLLoader(fxml: URL, dependencies: ControllerDependencyResolver, bundle :
         FxmlProxyGenerator(cls, dependencies)
     }) {
 
-  override def getController[T](): T = super.getController[ControllerAccessor].as[T]
+  override def getController[T](): T = super.getController[ControllerAccessor].as[T]()
 }
 

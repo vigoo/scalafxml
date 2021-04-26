@@ -38,11 +38,11 @@ class UnitConverterPresenter(from: JFXTextField,
   to.text <== new StringBinding {
     bind(from.text.delegate, types.getSelectionModel.selectedItemProperty)
 
-    def computeValue() = types.getSelectionModel.getSelectedItem.run(from.text.value)
+    def computeValue(): String = types.getSelectionModel.getSelectedItem.run(from.text.value)
   }
 
   // Close button event handler
-  def onClose(event: ActionEvent) {
+  def onClose(event: ActionEvent): Unit = {
     Platform.exit()
   }
 }

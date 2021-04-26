@@ -12,7 +12,7 @@ import com.google.inject.{AbstractModule, Guice}
 object GuiceDemo extends JFXApp {
 
   val module = new AbstractModule {
-    override def configure() {
+    override def configure(): Unit = {
       bind(classOf[TestDependency]).toInstance(new TestDependency("guice dependency"))
     }
   }
