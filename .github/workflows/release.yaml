@@ -13,10 +13,21 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Setup Scala
-        uses: olafurpg/setup-scala@v10
+      - uses: actions/setup-java@v2
         with:
-          java-version: "1.16.0-1"
+          distribution: 'zulu'
+          java-version: '11'
+          java-package: jdk-fx
+      - name: Setup SBT
+        shell: bash
+        run: |
+          # update this only when sbt-the-bash-script needs to be updated
+          export SBT_LAUNCHER=1.5.5
+          export SBT_OPTS="-Dfile.encoding=UTF-8"
+          curl -L --silent "https://github.com/sbt/sbt/releases/download/v$SBT_LAUNCHER/sbt-$SBT_LAUNCHER.tgz" > $HOME/sbt.tgz
+          tar zxf $HOME/sbt.tgz -C $HOME
+          sudo rm /usr/local/bin/sbt
+          sudo ln -s $HOME/sbt/bin/sbt /usr/local/bin/sbt
       - uses: olafurpg/setup-gpg@v3
       - run: sbt ci-release
         env:
