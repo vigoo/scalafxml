@@ -16,7 +16,7 @@ jobs:
       - name: Setup Scala
         uses: olafurpg/setup-scala@v10
         with:
-          java-version: "1.16.0"
+          java-version: "1.16.0-1"
       - uses: olafurpg/setup-gpg@v3
       - run: sbt ci-release
         env:
