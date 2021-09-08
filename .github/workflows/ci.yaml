@@ -1,0 +1,22 @@
+name: CI
+on:
+  push:
+  pull_request:
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        scala: ['2.11.12', '2.12.14', '2.13.6']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Scala
+        uses: olafurpg/setup-scala@v10
+        with:
+          java-version: "adopt@1.11"
+      - name: Coursier cache
+        uses: coursier/cache-action@v5
+      - name: Build and test
+        run: sbt ++${{ matrix.scala }} clean test
