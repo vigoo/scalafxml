@@ -42,7 +42,7 @@ lazy val commonSettings =
 
     // Add JavaFX dependencies, mark as "provided", so they can be later removed from published POM
     libraryDependencies ++= Seq("base", "controls", "fxml", "graphics", "media", "swing", "web").map(
-      m => "org.openjfx" % s"javafx-$m" % "17-ea+16" % "provided" classifier osName),
+      m => "org.openjfx" % s"javafx-$m" % "19-ea+8" % "provided" classifier osName),
 
     // Use `pomPostProcess` to remove dependencies marked as "provided" from publishing in POM
     // This is to avoid dependency on wrong OS version JavaFX libraries
@@ -125,6 +125,6 @@ lazy val demo = Project("scalafxml-demo-sfx8", file("demo"))
       "com.jfoenix" % "jfoenix" % "9.0.10"
     ),
     libraryDependencies ++= Seq("base", "controls", "fxml", "graphics", "media", "swing", "web").map(
-      m => "org.openjfx" % s"javafx-$m" % "17-ea+16" classifier osName)
+      m => "org.openjfx" % s"javafx-$m" % "19-ea+8" classifier osName)
   )
   .dependsOn(core, guice, macwire)
