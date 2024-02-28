@@ -21,7 +21,7 @@ lazy val commonSettings =
   Seq(
     organization := "org.scalafx",
     version := "0.5",
-    crossScalaVersions := Seq("2.13.6", "2.12.14", "2.11.12"),
+    crossScalaVersions := Seq("2.13.6", "2.12.19", "2.11.12"),
     scalaVersion := crossScalaVersions.value.head,
     scalacOptions ++= Seq("-deprecation"),
     // If using Scala 2.13 or better, enable macro processing through compiler option
