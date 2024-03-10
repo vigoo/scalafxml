@@ -21,7 +21,7 @@ lazy val commonSettings =
   Seq(
     organization := "org.scalafx",
     version := "0.5",
-    crossScalaVersions := Seq("2.13.6", "2.12.14", "2.11.12"),
+    crossScalaVersions := Seq("2.13.13", "2.12.19", "2.11.12"),
     scalaVersion := crossScalaVersions.value.head,
     scalacOptions ++= Seq("-deprecation"),
     // If using Scala 2.13 or better, enable macro processing through compiler option
@@ -37,7 +37,7 @@ lazy val commonSettings =
     resolvers += Resolver.sonatypeRepo("releases"),
     resolvers += Resolver.sonatypeRepo("snapshots"),
     libraryDependencies ++= Seq(
-      "org.scalafx" %% "scalafx" % "15.0.1-R21",
+      "org.scalafx" %% "scalafx" % "21.0.0-R32",
       "org.scalatest" %% "scalatest" % "3.2.9" % "test"),
 
     // Add JavaFX dependencies, mark as "provided", so they can be later removed from published POM
