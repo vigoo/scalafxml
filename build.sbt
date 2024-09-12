@@ -91,7 +91,7 @@ lazy val coreMacros = Project("scalafxml-core-macros-sfx8", file("core-macros"))
 
 lazy val guiceSettings = Seq(
   description := "Guice based dependency resolver for ScalaFXML",
-  libraryDependencies += "com.google.inject" % "guice" % "5.0.1"
+  libraryDependencies += "com.google.inject" % "guice" % "5.1.0"
 )
 
 lazy val guice = Project("scalafxml-guice-sfx8", file("guice"))
